@@ -10,8 +10,22 @@ const Home = () => {
 
 	const [searchInput, setSearchInput] = useState("");
 
+	// busqueda mas avanzada
+	function possibleRelatedEmoji(emoji, searchTerm) {
+
+		if (searchTerm == "") return true
+		
+		const titleIsRelated = emoji.title.toLowerCase().includes(searchInput.toLowerCase());
+
+		const keyworksMatch = emoji.keywords.toLowerCase().includes(searchInput.toLowerCase());
+
+		if (titleIsRelated || keyworksMatch) return true
+		
+		return false;
+	};
+
 	let emojisBuscados = emojis.filter(
-		item => item.title.toLowerCase().includes(searchInput.toLowerCase())
+		item => possibleRelatedEmoji(item, searchInput)
 	)
 
 
@@ -37,7 +51,7 @@ const Home = () => {
 
 				{
 					searchInput != "" && <p className="col-12"> Se han encontrado
-						{emojisBuscados.length}
+						{" "}{emojisBuscados.length}{" "}
 						coincidencias para la busqueda `{searchInput}`</p>
 				}
 
